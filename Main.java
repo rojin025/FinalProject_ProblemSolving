@@ -41,36 +41,37 @@ public class Main {
         System.out.println("Game Over");
     }
 
+    //Game Board
     public static void printBoard(String[][] board) {//Prints board
-        int row = board.length;
-        int col = board[0].length;
+        //  String[][] board =       {{"_", "_", "_"},
+        //                            {"_", "_", "_"},
+        //                            {"_", "_", "_"}};
+
+        int row = board.length;//{{0},{1},{2}}
+        int col = board[0].length;//{"_", "_", "_"},
         System.out.printf("\n****Tic Tac Toe****\n");
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                if (j < 2) System.out.printf(board[i][j] + " | " + " \t");//Printing matrix point [0,1] and [0,2]
+                if (j < 2) System.out.printf(board[i][j] + " | " + " \t");// c0 | c1 | c2
                 else System.out.printf(board[i][j] + "  " + " \t");//Printing matrix point [0,3]
             }
             System.out.printf("\n");
-            if (i < 2) System.out.printf("__________________\n");//Printing Middle lines in board
-            else System.out.printf("******************\n");//Printing Last lines in board
+            if (i < 2) System.out.printf("__________________\n");//Printing Middle lines in board r0----r1---r2
+            else System.out.printf("******************\n");//Printing Last lines in board    *******
         }
     }
 
-    //Game Board
-
-    public static void getCorrectInput(String[][] board, char player) {//X or O
-        int row, col;
-        //System.out.print("\n\n\n############Please Enter correct Value!############\n\n\n");
-        row = getRow();//0
-        col = getCol();//1
-        while (userInputChecker(board, row, col) != true) {
-            getCorrectInput(board, player);
-        }
-        updateBoard(board, row, col, player);
+    public static int getRow() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Please enter your row : ");
+        int row = input.nextInt();
+        return row;//0
     }
+
+    //input Checks if there is available space in the current board
     public static boolean userInputChecker(String[][] board, int row, int col) {//"_" == "_" >>>>>>  0
-        if ((row >= 0 && row < board.length) && (col >= 0 && col < board[0].length)) { //"a" == "A" >>>>> Ture //     0 == 0 >>>> True
-            if ( board[row][col].compareToIgnoreCase("_") == 0){
+        if ((row >= 0 && row < board.length) && (col >= 0 && col < board[0].length)) { // Check boundary
+            if ( board[row][col].compareToIgnoreCase("_") == 0){//"a" == "A" >>>>> Ture //     0 == 0 >>>> True
                 return true;
             }else {
                 System.out.println("\n#######################################################################");
@@ -85,29 +86,26 @@ public class Main {
             return false;//-1 or 1
         }
     }
-
-    public static int getCol() {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Please enter your Colume : ");
-        int col = input.nextInt();//1
-        System.out.print("\n");
-        return col;//1
-    }
-
-
-    //input Checks if there is available space in the current board
-
-    public static int getRow() {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Please enter your row : ");
-        int row = input.nextInt();
-        return row;//0
-    }
+    //Update board with X or O.
     public static void updateBoard(String[][] board, int row, int col, char player) {// player = "X" or "O"
         board[row][col] = String.valueOf(player);//Make it moduler for X or O. // board[1][1] = "X" // value before "_"
     }
 
+
+    public static void getCorrectInput(String[][] board, char player) {//X or O
+        int row, col;
+        row = getRow();//1
+        col = getCol();//1
+        while (userInputChecker(board, row, col) != true) {
+            getCorrectInput(board, player);
+        }
+        updateBoard(board, row, col, player);
+    }
     public static boolean winningPattern(String[][] board) {
+
+//        String[][] board = {{"_", "_", "_"},
+//                            {"_", "_", "_"},
+//                            {"_", "_", "_"}};
         //Rows
         for (int i = 0; i < board.length; i++) {
             if ((board[i][0].equals(board[i][1])) && (board[i][0].equals(board[i][2])) && (!board[i][0].equals("_")))
@@ -131,4 +129,12 @@ public class Main {
         return false;
     }
 
+    public static int getCol() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Please enter your Colume : ");
+        int col = input.nextInt();//1
+        System.out.print("\n");
+        return col;//1
+    }
+    //Main
 }
